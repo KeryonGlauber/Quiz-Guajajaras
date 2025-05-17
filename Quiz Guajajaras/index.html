@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Tecnologias Guajajara</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
+    h1 { text-align: center; }
+    .question { font-size: 1.2em; margin-bottom: 20px; }
+    .answers { list-style: none; padding: 0; }
+    .answers li { margin-bottom: 12px; }
+    button { padding: 10px 20px; font-size: 1em; border: none; border-radius: 4px; background: #007b5e; color: #fff; cursor: pointer; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .correct { background: #c8e6c9 !important; }
+    .wrong { background: #ffcdd2 !important; }
+    .hide { display: none; }
+    .center { text-align: center; }
+    html, body {
+      margin:0;
+      padding:0;
+      height:100;
+    }
+    body {
+      background-image: url('imagens/guajajara\ 2.jpg'); /* substitua pelo caminho da sua imagem */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      image-rendering: auto;
+      height: 100vh; /* garante que o fundo cubra a altura toda da tela */
+    }
+  </style>
+</head>
+<body style="background-image:url(imagens/guajajara\ 2.jpg) ;">
+  <div class="container">
+    <h1>Quiz: Tecnologias dos Guajajara</h1>
+    <div id="quiz"></div>
+    <div class="center">
+      <button id="nextBtn" class="hide">Próxima</button>
+      <button id="restartBtn" class="hide">Voltar para o início</button>
+    </div>
+  </div>
+  <script>
+    const questions = [
+      {
+        q: "Qual destas é uma tecnologia tradicional usada pelos Guajajara?",
+        a: ["Celular", "Arco e flecha", "Painel solar", "Trator"],
+        c: 1
+      },
+      {
+        q: "Para que os Guajajara usam a coivara?",
+        a: ["Comunicação", "Fertilizar o solo", "Construir ocas", "Navegação"],
+        c: 1
+      },
+      {
+        q: "O que é usado para registrar tradições e denunciar crimes ambientais?",
+        a: ["GPS", "Equipamentos de vídeo e gravação", "Drones", "Redes sociais"],
+        c: 1
+      },
+      {
+        q: "Qual tecnologia moderna auxilia na vigilância do território Guajajara?",
+        a: ["Painel solar", "GPS e drones", "Armadilhas", "Teares"],
+        c: 1
+      },
+      {
+        q: "Como os Guajajara melhoram o acesso à água potável?",
+        a: ["Cisternas e filtros de água", "Poços artesanais", "Rios", "Lagoas"],
+        c: 0
+      },
+      {
+        q: "Qual ferramenta digital é usada para mobilização política?",
+        a: ["Projetores", "Redes sociais", "Facões industriais", "Teares"],
+        c: 1
+      },
+      {
+        q: "O que é utilizado em escolas indígenas para ensino digital?",
+        a: ["Lousas digitais", "GPS", "Drones", "Arcos"],
+        c: 0
+      },
+      {
+        q: "Qual destas tecnologias é usada para produção de artesanato?",
+        a: ["Máquinas de costura e teares", "Painéis solares", "GPS", "Redes sociais"],
+        c: 0
+      },
+      {
+        q: "Como os Guajajara monitoram desmatamentos?",
+        a: ["Aplicativos como Mapeo", "Redes sociais", "Projetores", "Lousas digitais"],
+        c: 0
+      },
+      {
+        q: "O que permite aos Guajajara vender artesanato online?",
+        a: ["Plataformas de e-commerce", "Painéis solares", "GPS", "Rádios comunitárias"],
+        c: 0
+      }
+    ];
+
+    let current = 0;
+    let answered = false;
+
+    function showQuestion(idx) {
+      const q = questions[idx];
+      let html = `<div class="question">${idx + 1}. ${q.q}</div><ul class="answers">`;
+      q.a.forEach((alt, i) => {
+        html += `<li><button onclick="answer(${i})" id="btn${i}">${alt}</button></li>`;
+      });
+      html += '</ul>';
+      document.getElementById('quiz').innerHTML = html;
+      document.getElementById('nextBtn').classList.add('hide');
+      document.getElementById('restartBtn').classList.add('hide');
+      answered = false;
+    }
+
+    window.answer = function(i) {
+      if (answered) return;
+      answered = true;
+      const correct = questions[current].c;
+      for (let j = 0; j < questions[current].a.length; j++) {
+        const btn = document.getElementById('btn' + j);
+        btn.disabled = true;
+        if (j === correct) btn.classList.add('correct');
+        if (j === i && j !== correct) btn.classList.add('wrong');
+      }
+      document.getElementById('nextBtn').classList.remove('hide');
+      if (current === questions.length - 1) {
+        document.getElementById('nextBtn').classList.add('hide');
+        document.getElementById('restartBtn').classList.remove('hide');
+      }
+    };
+
+    document.getElementById('nextBtn').onclick = function() {
+      if (current < questions.length - 1) {
+        current++;
+        showQuestion(current);
+      }
+    };
+
+    document.getElementById('restartBtn').onclick = function() {
+      current = 0;
+      showQuestion(current);
+    };
+
+    // Inicializa o quiz
+    showQuestion(current);
+  </script>
+</body>
+</html>
